@@ -1,0 +1,11 @@
+<p>At some point I need to put some useful and helpful information on this page, but
+for the moment I'm being lazy and just automagically rendering the in-line POD from
+the source code. What could possibly go wrong? heh</p>
+
+<p>Seriously though, there's probably loads I'll end up writing here, but screw that
+for the moment,.. lets actually write some code first right? Am I right? Right right
+right!</p>
+
+<span class="pod">
+<% pod_html %>
+</span>

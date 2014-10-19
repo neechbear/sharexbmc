@@ -1,0 +1,167 @@
+<html>
+  <head>
+    <title>Technical Development Notes</title>
+  </head>
+  <body>
+  <!--<source src="/steam/knickers/mp4" type="video/mp4">-->
+		<video width="320" height="240" controls>
+  <source src="/stream/webm/somefile.mkv" type="video/webm">
+  <source src="/stream/ogg/somefile.mkv" type="video/ogg">
+Your browser does not support the video tag.
+</video>
+
+    <h1>Technical Development Notes</h1>
+    <h2>Dancer</h2>
+    <ul>
+      <li><a href="http://advent.perldancer.org/2011/3">http://advent.perldancer.org/2011/3</a>
+    </ul>
+
+    <h2>PAR</h2>
+    <ul>
+      <li><a href="http://search.cpan.org/~rschupp/PAR-Packer/lib/PAR/Packer.pm">http://search.cpan.org/~rschupp/PAR-Packer/lib/PAR/Packer.pm</a>
+    </ul>
+    <pre>
+beren:sharexbmc nicolaw$ pp -r -M Sub::Name -M Module::Refresh -M Dancer::Handler::Standalone -M Template -M Dancer::Template::TemplateToolkit -M Dancer::Logger::Console -M Tie::Hash::NamedCap
+ture -M MIME::Types -vvv -o sharexbmc.par -a '/Library/Perl/5.16/MIME/types.db;lib/MIME/types.db' -a config.yml -a lib -a db -a environments -a static -a views -B sharexbmc.pl
+
+[77178] debug @0.000008> Adding sqlite_unicode to DBI connection params to enable UTF-8 support in Dancer/Plugin/Database.pm l. 28
+[77178] debug @0.026223> Setting up route for /shapes/add in Dancer/Plugin/SimpleCRUD.pm l. 465
+[77178] debug @0.026724> Setting up route for /shapes/edit/:id in Dancer/Plugin/SimpleCRUD.pm l. 465
+[77178]  core @0.041832> loading Dancer::Handler::Standalone handler in Dancer/Handler.pm l. 45
+[77178]  core @0.041971> loading handler 'Dancer::Handler::Standalone' in Dancer.pm l. 483
+>> Dancer 1.3119 server 77178 listening on http://0.0.0.0:3000
+>> Dancer::Plugin::SimpleCRUD (0.91)
+>> Dancer::Plugin::Database::Core (0.04)
+>> Dancer::Plugin::Database::Core::Handle (0.02)
+>> Dancer::Plugin::Database (2.08)
+== Entering the development dance floor ...
+^C
+beren:sharexbmc nicolaw$ grep -C 1 'MIME/Types.pm' /Library/Perl/5.16/MIME/Types.pm
+    my $db              = $args->{db_file}
+      || File::Spec->catfile(dirname($INC{'MIME/Types.pm'}), 'types.db');
+
+beren:sharexbmc nicolaw$
+</pre>
+
+    <h2>XBMC Resources</h2>
+    <ul>
+      <li><a href="http://wiki.xbmc.org/index.php?title=Database_Schema_4.0">http://wiki.xbmc.org/index.php?title=Database_Schema_4.0</a>
+      <li><a href="http://wiki.xbmc.org/index.php?title=XBMC_databases">http://wiki.xbmc.org/index.php?title=XBMC_databases</a>
+    </ul>
+    <pre>
+beren:Database nicolaw$ ls -alh ~/Library/Application\ Support/XBMC/userdata/{Database,Thumbnails}/
+/Users/nicolaw/Library/Application Support/XBMC/userdata/Database/:
+total 159096
+drwxr-xr-x  10 nicolaw  staff   340B 12 Dec 04:15 .
+drwxr-xr-x  16 nicolaw  staff   544B  4 Nov 22:00 ..
+-rw-r--r--   1 nicolaw  staff   520K 12 Dec 00:31 Addons15.db
+drwxr-xr-x   2 nicolaw  staff    68B 30 Oct 13:58 CDDB
+-rw-r--r--   1 nicolaw  staff    28K 30 Oct 13:58 Epg7.db
+-rw-r--r--   1 nicolaw  staff   180K 30 Oct 13:58 MyMusic32.db
+-rw-r--r--   1 nicolaw  staff    68M 12 Dec 04:15 MyVideos75.db
+-rw-r--r--   1 nicolaw  staff    40K 30 Oct 13:58 TV22.db
+-rw-r--r--   1 nicolaw  staff   9.2M 11 Dec 20:09 Textures13.db
+-rw-r--r--   1 nicolaw  staff    20K 14 Nov 23:37 ViewModes4.db
+
+/Users/nicolaw/Library/Application Support/XBMC/userdata/Thumbnails/:
+total 0
+drwxr-xr-x    19 nicolaw  staff   646B 30 Oct 13:58 .
+drwxr-xr-x    16 nicolaw  staff   544B  4 Nov 22:00 ..
+drwxr-xr-x  1904 nicolaw  staff    63K 11 Dec 20:09 0
+drwxr-xr-x  1844 nicolaw  staff    61K 10 Dec 00:28 1
+drwxr-xr-x  1882 nicolaw  staff    62K 11 Dec 10:51 2
+drwxr-xr-x  1831 nicolaw  staff    61K 10 Dec 00:28 3
+drwxr-xr-x  1833 nicolaw  staff    61K 10 Dec 00:28 4
+drwxr-xr-x  1900 nicolaw  staff    63K 10 Dec 00:28 5
+drwxr-xr-x  1872 nicolaw  staff    62K 10 Dec 00:28 6
+drwxr-xr-x  1855 nicolaw  staff    62K  9 Dec 00:51 7
+drwxr-xr-x  1890 nicolaw  staff    63K 10 Dec 00:28 8
+drwxr-xr-x  1810 nicolaw  staff    60K 10 Dec 00:28 9
+drwxr-xr-x     3 nicolaw  staff   102B 30 Oct 13:58 Video
+drwxr-xr-x  1785 nicolaw  staff    59K 10 Dec 00:28 a
+drwxr-xr-x  1864 nicolaw  staff    62K 10 Dec 00:28 b
+drwxr-xr-x  1774 nicolaw  staff    59K 10 Dec 00:28 c
+drwxr-xr-x  1875 nicolaw  staff    62K 10 Dec 00:28 d
+drwxr-xr-x  1870 nicolaw  staff    62K 10 Dec 00:28 e
+drwxr-xr-x  1864 nicolaw  staff    62K 11 Dec 10:51 f
+beren:Database nicolaw$
+</pre>
+
+<pre>
+beren:Database nicolaw$ sqlite3 -bail -header -separator '|' -echo ~/Library/Application\ Support/XBMC/userdata/Database/MyVideos*.db 'select idMovie,c07,c05,c09,c00,path.strPath||files.strFi
+lename from movie, files,path where movie.idFile=files.idFile and files.idPath=path.idPath order by c05 desc;'
+</pre>
+  </body>
+</html>
+ffmpeg -i INPUT -acodec aac -ac 2 -strict experimental -ab 160k -s {ssize} -vcodec libx264 -preset slow -profile:v baseline -level 30 -maxrate 10000000 -bufsize 10000000 -b 1200k -f mp4 -threads 0 OUTPUT
+#!/usr/bin/perl -wT
+
+use 5.16.2;
+use strict;
+use warnings;
+use autodie qw(:io :threads);
+
+use Data::Dumper qw(Dumper);
+use LWP::UserAgent qw();
+use JSON qw(to_json from_json);
+
+my $actionurl = "http://beren.wat.tfb.net:8080/jsonrpc";
+
+my $ua = LWP::UserAgent->new();
+$ua->credentials('beren.wat.tfb.net:8080','XBMC','xbmc','knickers');
+$ua->agent('JsonClient/1.0');
+
+                                #filter => {
+				#	field => 'title',
+				#	operator => 'contains',
+				#	value => 'Star Wars',
+				#	},
+my $object = {
+		jsonrpc => "2.0", 
+		id => 'libMovies',
+                method  => 'VideoLibrary.GetMovies',
+                params  => {
+                                sort => {
+					order => 'ascending',
+					method => 'title',
+					},
+				properties => [qw(
+                                        title genre year rating director trailer tagline plot plotoutline
+                                        originaltitle lastplayed playcount writer studio mpaa cast country
+                                        imdbnumber runtime set showlink streamdetails top250 votes
+                                        fanart thumbnail file sorttitle resume setid dateadded tag art
+					)],
+				limits => {
+					start => 0,
+					end => 2000, 
+					},
+                        },
+                };
+
+my $json = to_json($object, { ascii => 1, pretty => 1 });
+print "$json\n";
+
+my $req = HTTP::Request->new(POST => $actionurl);
+$req->content_type('application/json');
+$req->content($json);
+
+my $res = $ua->request($req);
+if ($res->is_success) {
+	say "------------------------";
+	say "Succeeded:\n" . Dumper($res->dump);
+	say "------------------------";
+	say "Dump: ". $res->dump;
+	say "------------------------";
+	my $result = from_json($res->content, { utf8 => 1 });
+	say "Result: ".Dumper($result);
+	say "------------------------";
+} else {
+	say $res->status_line;
+}
+
+exit;
+
+#!/bin/bash
+
+pp -L pp.log -M Dancer::Handler::Standalone -M Template -M Dancer::Template::TemplateToolkit -M Dancer::Logger::Console -M Tie::Hash::NamedCapture -M MIME::Types -vvv -o sharexbmc.par -a '/Library/Perl/5.16/MIME/types.db;lib/MIME/types.db' -a config.yml -a db -a environments -a static -a views -B sharexbmc.pl && chmod 755 sharexbmc.par && ./sharexbmc.par
+

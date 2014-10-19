@@ -1,0 +1,58 @@
+<p>
+This page displays various runtime and querytime specific diagnostic information.
+Change your HTTP request '<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">Accept</a>'
+entity-header field to <code>text/x-yaml</code>, <code>text/xml</code>, <code>text/x-json</code> or
+<code>application/json</code> to receive a machine parsable serialized version of this information.
+For example try executing the following commands:<br />
+<code>curl -s -S -A 'Accept: text/x-json' <script>document.write(document.URL);</script></code><br />
+<code>curl -s -S -A 'Accept: text/x-json' <script>document.write(document.URL);</script> | json_pp -t dumper</code>
+</p>
+
+<h2>Command line flags</h2>
+<p>
+<% FOREACH f IN flags.sort %>
+  <% IF flags.$f %>
+--<% f %>=<% flags.$f %><br />
+  <% ELSE %>
+--<% f %><br />
+  <% END %>
+<% END %>
+</p>
+
+<h2>Include paths (@INC)</h2>
+<p>
+<% USE table(libinc, cols=1) %>
+<% FOREACH cols = table.cols %>
+  <% FOREACH item = cols %>
+    <% item %><br />
+  <% END %>
+<% END %>
+</p>
+
+<h2>Packages (%INC)</h2>
+<p>
+<% FOREACH p IN packages.sort %>
+<% p %> <code>=&gt;</code> <% packages.$p %><br />
+<% END %>
+</p>
+
+<h2>Environment variables (%ENV)</h2>
+<p>
+<% FOREACH e IN environment.sort %>
+<% e %>=<% environment.$e %><br />
+<% END %>
+</p>
+
+<!--
+< % USE Dumper %>
+<h2>Dancer configuration</h2>
+<p>
+< % FOREACH c IN config.sort %>
+< % c %>=< % config.$c %>
+  < % IF NOT config.$c.substr(0,1) AND config.$c.substr(0,1) != '0' AND config.$c != '' %>
+<pre>< % Dumper.dump(config.$c) %></pre>
+  < % END %>
+<br />
+< % END %>
+</p>
+-->

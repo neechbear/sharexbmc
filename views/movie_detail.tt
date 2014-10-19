@@ -1,0 +1,189 @@
+<p>
+<% IF rpc_result.result.movies %>
+  <% FOR m IN rpc_result.result.movies %>
+    <% IF loop.last %>
+    <a href="http://www.imdb.com/title/<% m.imdbnumber%>"><img src="/thumbnail/<% m.art.poster | remove('^image://') | remove('/$')  %>"
+       alt="<% m.title | html_entity %> (<% m.year %>)" class="big_poster" /></a>
+
+      <% IF m.tagline %>
+      <div class="tagline"><% m.tagline %></div>
+      <% END %>
+
+      <% IF m.plot.length %>
+        <p><% m.plot %></p>
+      <% ELSIF m.plotoutline.length %>
+        <p><% m.plotoutline %></p>
+      <% END %>
+
+      <% IF m.director AND m.director.size >= 1 %>
+        <% FOR p IN m.director %><% IF loop.first AND p.length %><p>Director<% IF loop.size > 1 %>s<% END %>: <% END %>
+          <a href="http://www.imdb.com/find?q=<% p | url  %>&s=nm"><% p %></a><% IF NOT loop.last %>, <% END %>
+          <% IF loop.last AND p.length %></p><% END %>
+        <% END %>
+      <% END %>
+
+      <% IF m.genre AND m.genre.size >= 1 %>
+        <% FOR p IN m.genre %><% IF loop.first AND p.length %><p>Genre<% IF loop.size > 1 %>s<% END %>: <% END %>
+          <% p %><% IF NOT loop.last %>, <% END %>
+          <% IF loop.last AND p.length %></p><% END %>
+        <% END %>
+      <% END %>
+
+      <% IF m.cast AND m.cast.size >= 1 %>
+        <% FOR p IN m.cast %><% IF loop.first AND p.name.length %><p>Actor<% IF loop.size > 1 %>s<% END %>: <% END %>
+          <% IF loop.count <= 10 %><a href="http://www.imdb.com/find?q=<% p.name | url  %>&s=nm"><% p.name %></a><% END %><% IF loop.count < 10 AND NOT loop.last %>, <% END %>
+          <% IF loop.last AND p.length %></p><% END %>
+        <% END %>
+      <% END %>
+
+      <% IF m.writer AND m.writer.size >= 1 %>
+        <% FOR p IN m.writer %><% IF loop.first AND p.length %><p>Writer<% IF loop.size > 1 %>s<% END %>: <% END %>
+          <a href="http://www.imdb.com/find?q=<% p | url %>&s=nm"><% p %></a><% IF NOT loop.last %>, <% END %>
+          <% IF loop.last AND p.length %></p><% END %>
+        <% END %>
+      <% END %>
+
+    <% END %>
+  <% END %>
+
+  <!-- ------------------------------------------------------------ -->
+  <!-- See xbmc/utils/StreamDetails.cpp at https://github.com/xbmc/ -->
+  <!-- ------------------------------------------------------------ -->
+
+  <!--
+  if (iWidth == 0 || iHeight == 0)
+    return "";
+  else if (iWidth <= 720 && iHeight <= 480)
+    return "480";
+  // 720x576 (PAL) (768 when rescaled for square pixels)
+  else if (iWidth <= 768 && iHeight <= 576)
+    return "576";
+  // 960x540 (sometimes 544 which is multiple of 16)
+  else if (iWidth <= 960 && iHeight <= 544)
+    return "540";
+  // 1280x720
+  else if (iWidth <= 1280 && iHeight <= 720)
+    return "720";
+  // 1920x1080
+  else if (iWidth <= 1920 && iHeight <= 1080)
+    return "1080";
+  // 4K
+  else
+    return "4K";
+  -->
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="files">
+  <% FOR m IN rpc_result.result.movies %>
+    <tr>
+      <td class="movie_icons">
+      <% IF m.file.search(' \(BLURAY\)') %>
+            <img src="/icons/format/80px-Bluray.png" alt="BluRay" />
+<!--       < % ELSIF m.file.search(' \(HD\)') %> -->
+<!--
+            <img src="/icons/resolution/50px-1080.png" alt="HD" />
+-->
+      <% END %>
+
+      <% FOR stream IN m.streamdetails.video %>
+          <% IF stream.height >= 1080 %>
+            <img src="/icons/resolution/50px-1080_n.png" alt="1080" />
+          <% ELSIF stream.height >= 720 %>
+            <img src="/icons/resolution/50px-720.png" alt="720" />
+          <% ELSIF stream.height >= 500 %>
+            <!-- <img src="/icons/resolution/50px-1080.png" alt="HD" /> -->
+          <% ELSE %>
+            <img src="/icons/resolution/50px-480-1.png" alt="SD" />
+          <% END %>
+
+          <% IF stream.codec == "xvid" %>
+            <img src="/icons/format/80px-Xvid.png" alt="XVID" />
+          <% ELSIF stream.codec == "divx" %>
+            <img src="/icons/format/80px-Divx.png" alt="DivX" />
+          <% ELSIF stream.codec == "truehd" %>
+            <img src="/icons/format/80px-Truehd.png" alt="TrueHD" />
+          <% ELSIF stream.codec == "h264" %>
+            <img src="/icons/format/80px-H264.png" alt="h.264" />
+          <% END %>
+      <% END %>
+
+      <% mp3 = 0; aac = 0; avc1 = 0; truehd = 0; flac = 0; cdda = 0; ac3 = 0; dtshd_hra = 0; dtshd_ma = 0 %>
+      <% FOR stream IN m.streamdetails.audio %>
+          <% IF NOT mp3 AND stream.codec == "mp3" %>
+            <% mp3 = mp3 + 1 %>
+            <img src="/icons/format/80px-Mp3.png" alt="MP3" />
+          <% ELSIF stream.codec == "aac" %>
+            <img src="/icons/format/80px-Aac.png" alt="AAC" />
+          <% ELSIF stream.codec == "avc1" %>
+            <img src="/icons/format/80px-Avc1.png" alt="AVC1" />
+          <% ELSIF stream.codec == "truehd" %>
+            <img src="/icons/format/80px-Truehd.png" alt="TrueHD" />
+          <% ELSIF stream.codec == "flac" %>
+            <img src="/icons/format/80px-Flac.png" alt="FLAC" />
+          <% ELSIF stream.codec == "cdda" %>
+            <img src="/icons/format/80px-Cdda.png" alt="CDDA" />
+          <% ELSIF NOT ac3 AND stream.codec == "ac3" %>
+            <% ac3 = ac3 + 1 %>
+            <img src="/icons/format/80px-Ac3.png" alt="AC3" />
+          <% ELSIF stream.codec == "dtshd_hra" %>
+            <img src="/icons/format/80px-Dtshd.png" alt="DTS-HD" />
+          <% ELSIF stream.codec == "dtshd_ma" %>
+            <img src="/icons/format/80px-Dtshd_ma.png" alt="DTS-HD MA" />
+          <% END %>
+      <% END %>
+
+      <% FOR stream IN m.streamdetails.video %>
+        <% IF stream.aspect <= 1 %>
+            <!-- no valid matching aspect ratio found -->
+	<% ELSIF stream.aspect < 1.3499 %>
+            <img src="/icons/aspect/50px-1.33.png" alt="4:3" />
+	<% ELSIF stream.aspect < 1.5080 %>
+            <img src="/icons/aspect/50px-1.37.png" alt="1.37" />
+	<% ELSIF stream.aspect < 1.7190 %>
+            <img src="/icons/aspect/50px-1.66.png" alt="16:9" />
+	<% ELSIF stream.aspect < 2.0174 %>
+            <img src="/icons/aspect/50px-1.85.png" alt="1.85" />
+	<% ELSIF stream.aspect < 2.2738 %>
+            <img src="/icons/aspect/50px-2.20.png" alt="2.20" />
+	<% ELSIF stream.aspect < 2.3749 %>
+            <img src="/icons/aspect/50px-2.35.png" alt="2.35" />
+	<% ELSIF stream.aspect < 2.4739 %>
+            <img src="/icons/aspect/50px-2.40.png" alt="2.40" />
+	<% ELSIF stream.aspect < 2.6529 %>
+            <img src="/icons/aspect/50px-2.55.png" alt="2.55" />
+        <% ELSE %>
+            <img src="/icons/aspect/50px-2.76.png" alt="2.76" />
+        <% END %>
+      <% END %>
+        </td>
+
+       <td align="center">
+      <% FOR stream IN m.streamdetails.video %>
+       <% stream.width %>x<% stream.height %>
+      <% END %>
+       </td>
+
+       <td align="center">
+      <% FOR stream IN m.streamdetails.video %>
+        <% FILTER format('%d');
+          (stream.duration / 60);
+        END %>
+        minutes
+      <% END %>
+       </td>
+
+       <td>
+        <a href="/stream/webm/<% m.file.replace('nfs://10.1.4.4','/Volumes') | url %>"><% m.file.remove('.*/') %></a>
+       </td>
+    </tr>
+  <% END %>
+  </table>
+
+<% ELSE %>
+  Aww arse-burger; no matching movie was found!
+<% END %>
+</p>
+
+<!--
+< % USE Dumper %>
+< % Dumper.dump_html(rpc_result.result.movies) %>
+-->

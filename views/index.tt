@@ -1,0 +1,18 @@
+<p>
+  This is the index page where the most recently added or more recently downloaded
+  video and audio files should be showcased with thumbnails and synopsies.
+</p>
+<p>
+  I will be working on code in vaguely the following lose order:
+  <ol>
+    <li>Movie index listing with posters and pagination</li>
+    <li>Movie detils page with information about each specific media file associated with it (there may be many, SD, HD, BD etc)</li>
+    <li>Television index listing with posters and pagination</li>
+    <li>Television series and episode detail pages with specific media file information</li>
+    <li>The what's new page to show the 20 most recently added movies and 20 most recently added tv shows etc</li>
+    <li>Get /varz reporting some more sensible shit</li>
+    <li>Get some very basic ffmpeg realtime transcoding working so you can stream a media file</li>
+    <li>Add search functionality</li>
+    <li>Look at the same of the above but for the music tab</li>
+  </ol>
+</p>

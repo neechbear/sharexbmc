@@ -1,0 +1,17 @@
+<p>
+This page displays various metrics about the health, performance and service and execution history of
+this server.
+Change your HTTP request '<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">Accept</a>'
+entity-header field to <code>text/x-yaml</code>, <code>text/xml</code>, <code>text/x-json</code> or
+<code>application/json</code> to receive a machine parsable serialized version of this information.
+</p>
+
+<% USE Dumper %>
+<% Dumper.dump_html(varz) %>
+<hr>
+<h2>Monitoring metrics</h2>
+<p>
+<% FOREACH v IN varz %>
+  <% v %>=<% v %>
+<% END %>
+</p>

@@ -1,0 +1,30 @@
+
+<h3>Add a new shape to database</h3>
+<form action="add" method="post">
+        Shape: <select name="shape">
+                <option value="square">square</option>
+                <option value="circle">circle</option>
+                <option value="triangle">triangle</option>
+                </select>
+
+        Color: <select name="color">
+                <option value="red">red</option>
+                <option value="green">green</option>
+                <option value="blue">blue</option>
+                </select>
+
+        <input type="submit" name="submit" value="Add Shape" />
+</form>
+
+Direct Database Access: <a href="shapes">click here</a><br/>
+
+<h3>Current Shapes in database:</h3>
+<% IF shapes.size == 0 %>
+  Database is empty. Please add some shapes.
+<% ELSE %>
+  <% FOREACH s IN shapes %>
+    <% s.count %> <% s.color %> <% s.shape %><% s.count>1 ? 's' : '' %>
+    <br/>
+  <% END %>
+<% END %>
+

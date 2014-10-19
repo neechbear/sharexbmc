@@ -1,0 +1,33 @@
+<% IF rpc_result.result.movies %>
+<% USE page = Pagination(rpc_result.result.movies, current_page, entries_per_page) %>
+<div class="pagination">
+  <% IF page.previous_page %>
+    <a href="?page=<% page.previous_page %>">&#8592; Previous</a>
+  <% END %>
+  <% p = page.current_page - 5; 
+    WHILE p <= page.current_page + 5 %>
+    <% IF p >= 1 AND p <= page.last_page %>
+      <% IF p == page.current_page %>
+        <b><% p %></b>
+      <% ELSE %>
+        <a href="?page=<% p %>"><% p %></a>
+      <% END %>
+    <% END %>
+  <% p = p + 1;
+    END;
+  %>
+  <% IF page.next_page %>
+    <a href="?page=<% page.next_page %>">Next &#8594;</a>
+  <% END %>
+</div>
+<p>
+  <% FOR m IN page.page_data %>
+    <% IF loop.prev.imdbnumber != m.imdbnumber %>
+    <a href="/movies/<% m.title | uri %>/<% m.year %>"><img src="/thumbnail/<% m.art.poster | remove('^image://') | remove('/$')  %>?width=111&height=164"
+       alt="<% m.title | html_entity %> (<% m.year %>)" class="poster" /></a>
+    <% END %>
+  <% END %>
+<% ELSE %>
+  Aww bum-cakes; no matching movies were found!
+<% END %>
+</p>

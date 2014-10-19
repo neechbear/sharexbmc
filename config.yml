@@ -1,0 +1,49 @@
+# appdir/config.yml
+logger: 'console'
+port: 3000
+
+app:
+  pagination:
+    movies_per_page: 25
+
+# XBMC server specific configuration options
+xbmc:
+  json_api:
+    user_agent: 'share|xbmc/0.0.1'
+    realm: 'XBMC'
+    url: 'http://beren.wat.tfb.net:8080/jsonrpc'
+    username: 'xbmc'
+    password: 'knickers'
+
+# Environment configuration
+require_environment: true
+#environment: 'development'
+
+# Static serving content
+public: 'static'
+
+# Templates and character encoding
+layout: 'simplestyle_4'
+charset: UTF-8
+serializer: Mutable
+template: 'template_toolkit'
+engines:
+  template_toolkit:
+    encoding: 'utf8'
+    ENCODING: utf8
+    PLUGIN_BASE: 'Template::Plugin::Pagination'
+
+# Dancer::Plugins::Database connection definitions
+plugins:
+  Database:
+    connections:
+      test:
+        driver: 'SQLite'
+        database: '/Users/nicolaw/sharexbmc/db/sharexbmc.sqlite'
+      settings:
+        driver: 'SQLite'
+        database: '/Users/nicolaw/sharexbmc/db/settings.sqlite'
+      cache:
+        driver: 'SQLite'
+        database: '/Users/nicolaw/sharexbmc/db/cache.sqlite'
+

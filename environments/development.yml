@@ -1,0 +1,8 @@
+# appdir/environments/development.yml
+log: 'core'
+startup_info: true
+show_errors:  true
+traces: true
+auto_reload: true
+warnings: true
+global_warnings: true
